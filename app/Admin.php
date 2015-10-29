@@ -37,12 +37,23 @@ class Admin extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
+    /**
+     * Set Password attribute.
+     *
+     * @param string $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
     public function activateAccount($code)
     {
-    	$admin = Admin::where('activation_code', $code)->first();
-    	if($admin){
-    		$admin->update(['active' => 1, 'activation_code' => NULL]);
-    		\Auth::login($admin);
-    		return true;
-    	}
+        $admin = Admin::where('activation_code', $code)->first();
+        if ($admin) {
+            $admin->update(['active' => 1, 'activation_code' => NULL]);
+            \Auth::login($admin);
+            return true;
+        }
+    }
 }

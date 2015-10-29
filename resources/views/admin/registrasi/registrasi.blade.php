@@ -13,7 +13,7 @@
           </header>
           <div class="panel-body">
               <div class="form">
-                  <form class="cmxform form-horizontal tasi-form" id="signupForm" method="post" action="registeradmin">
+                  <form class="cmxform form-horizontal tasi-form" id="signupForm" method="post" action="{{ route('registeradmin') }}">
                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       <div class="form-group ">
                           <label for="noi" class="control-label col-lg-2">No Identitas</label>

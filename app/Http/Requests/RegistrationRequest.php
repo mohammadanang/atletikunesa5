@@ -1,8 +1,9 @@
 <?php
 namespace App\Http\Requests;
-use App\Http\Requests\Request;
 
-class RegistrationRequest extends Request
+use Illuminate\Foundation\Http\FormRequest;
+
+class RegistrationRequest extends FormRequest
 {
 	 /**
 	 * Determine if the user is authorized to make this request.

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Admin\CreateUser;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Requests\RegistrationRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Controllers\Controller;
 use App\Admin;
 use Auth;
 use Mail;
@@ -16,24 +16,25 @@ class AdminController extends Controller
 {
 	public function create()
 	{
-		return view('admin.registrasi.registrasi')->withtitle('Registrasi Admin');
+		return view('admin.registrasi.registrasi')->withTitle('Registrasi Admin');
 	}
 
-	public function doRegister(RegistrationRequest $request)
+	public function doRegister(Request $request)
 	{
-		$input = $request->all();
-		$password = bcrypt($request->input('password'));
-		$input['password'] = $password;
-		$input['activation_code'] = str_random(60) . $request->input('email');
-		$register = Admin::create($input);
-		$data = [
-			'noi' => $input['noi'],
-			'name' => $input['name'],
-			'other' => $input['other'],
-			'code' => $input['activation_code']
-		];
-		$this->sendEmail($data, $input);
-		return redirect()->route('registrasiadmin');
+		try {
+			$this->dispatch(new CreateUser($request));
+		} catch (\Exception $e) {
+			return redirect()->back()->withErrors('Something wrong with your request');
+		}
+
+//		$data = [
+//			'noi' => $input['noi'],
+//			'name' => $input['name'],
+//			'other' => $input['other'],
+//			'code' => $input['activation_code']
+//		];
+//		$this->sendEmail($data, $input);
+		return redirect()->route('index');
 	}
 
 	public function sendEmail($data, $input)
