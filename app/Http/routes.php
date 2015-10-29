@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', ['as' => 'index', 'uses' => 'HomeController@index']);
+// Route::post('login',['as' => 'login', 'uses' => 'AdminController@login']);
+// Route::get('logout',['as' => 'logout', 'uses' => 'AdminController@logout']);
+Route::get('registrasiadmin',['as' => 'registrasiadmin', 'uses' => 'AdminController@create']);
+Route::post('registeradmin',['as' => 'registeradmin', 'uses' => 'AdminController@doRegister']);
+Route::get('/registration/activate/{code}', ['as' => 'activate', 'uses' => 'SimpleauthController@activate']);
